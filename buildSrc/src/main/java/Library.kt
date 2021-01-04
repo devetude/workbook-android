@@ -28,8 +28,24 @@ sealed class Library(
         name = "material",
         version = "1.2.1"
     )
+
+    sealed class Room(private val name: String) : Library(
+        group = "androidx.room",
+        name = name,
+        version = "2.2.5"
+    ) {
+        object Compiler : Room(name = "room-compiler")
+
+        object Runtime : Room(name = "room-runtime")
+
+        object Ktx : Room(name = "room-ktx")
+    }
 }
 
 fun DependencyHandlerScope.implementation(vararg libs: Library) = libs.forEach {
     "implementation"(it.notation)
+}
+
+fun DependencyHandlerScope.kapt(vararg libs: Library) = libs.forEach {
+    "kapt"(it.notation)
 }
