@@ -2,7 +2,11 @@ includeModules()
 rootProject.name = "workbook"
 
 fun includeModules() {
-    val modules = setOf(":app" to "app")
+    val rootPath = "module"
+    val modules = setOf(
+        ":app" to "app",
+        ":model" to "$rootPath/model"
+    )
 
     modules.forEach { (projectPath, projectDirPath) ->
         include(projectPath)
