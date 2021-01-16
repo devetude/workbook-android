@@ -21,6 +21,8 @@ sealed class Library(
         object GradlePlugin : Kotlin(name = "kotlin-gradle-plugin")
 
         object Stdlib : Kotlin(name = "kotlin-stdlib")
+
+        object Test : Kotlin(name = "kotlin-test")
     }
 
     object Material : Library(
@@ -40,10 +42,38 @@ sealed class Library(
 
         object Ktx : Room(name = "room-ktx")
     }
+
+    object JUnit : Library(
+        group = "junit",
+        name = "junit",
+        version = "4.13"
+    )
+
+    sealed class Mockito(
+        private val group: String,
+        private val name: String,
+        private val version: String
+    ) : Library(group, name, version) {
+        object Inline : Mockito(
+            group = "org.mockito",
+            name = "mockito-inline",
+            version = "3.7.7"
+        )
+
+        object Kotlin : Mockito(
+            group = "com.nhaarman.mockitokotlin2",
+            name = "mockito-kotlin",
+            version = "2.2.0"
+        )
+    }
 }
 
 fun DependencyHandlerScope.implementation(vararg libs: Library) = libs.forEach {
     "implementation"(it.notation)
+}
+
+fun DependencyHandlerScope.testImplementation(vararg libs: Library) = libs.forEach {
+    "testImplementation"(it.notation)
 }
 
 fun DependencyHandlerScope.kapt(vararg libs: Library) = libs.forEach {
